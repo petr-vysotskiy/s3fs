@@ -70,8 +70,8 @@
         it('should be able to read and write a file by going up a directory in a path', function () {
             var fileText = '{ "test": "test" }';
             return bucketS3fsImpl.writeFile('test-file.json', fileText).then(function () {
-                return expect(bucketS3fsImpl.readFile(bucketS3fsImpl.path + '../test-file.json')).to.eventually.satisfy(function (data) {
-                    expect(data.Body.toString()).to.equal(fileText);
+                return expect(bucketS3fsImpl.readFile(bucketS3fsImpl.path + '../test-file.json', 'utf8')).to.eventually.satisfy(function (data) {
+                    expect(data).to.equal(fileText);
                     return true;
                 });
             });
@@ -80,8 +80,8 @@
         it('should be able to read and write a file by going out of the bucket path', function () {
             var fileText = '{ "test": "test" }';
             return bucketS3fsImpl.writeFile('../' + bucketS3fsImpl.path.slice(0, -1) + 'mock/' + 'test-file.json', fileText).then(function () {
-                return expect(bucketS3fsImpl.readFile('../' + bucketS3fsImpl.path.slice(0, -1) + 'mock/' + 'test-file.json')).to.eventually.satisfy(function (data) {
-                    expect(data.Body.toString()).to.equal(fileText);
+                return expect(bucketS3fsImpl.readFile('../' + bucketS3fsImpl.path.slice(0, -1) + 'mock/' + 'test-file.json', 'utf8')).to.eventually.satisfy(function (data) {
+                    expect(data).to.equal(fileText);
                     return true;
                 });
             });
@@ -95,8 +95,8 @@
                 bucketS3fsImpl.writeFile('two/test-file.json', fileText)
             ]).then(function () {
                 var oneS3fsImpl = bucketS3fsImpl.clone('one');
-                return expect(oneS3fsImpl.readFile('../two/test-file.json')).to.eventually.satisfy(function (data) {
-                    expect(data.Body.toString()).to.equal(fileText);
+                return expect(oneS3fsImpl.readFile('../two/test-file.json', 'utf8')).to.eventually.satisfy(function (data) {
+                    expect(data).to.equal(fileText);
                     return true;
                 });
             });
@@ -105,8 +105,8 @@
         it('should be able to read and write a file by going up a directory', function () {
             var fileText = '{ "test": "test" }';
             return bucketS3fsImpl.writeFile('../some/dir/test-file.json', fileText).then(function () {
-                return expect(bucketS3fsImpl.readFile('../some/dir/somethingInvalid/../test-file.json')).to.eventually.satisfy(function (data) {
-                    expect(data.Body.toString()).to.equal(fileText);
+                return expect(bucketS3fsImpl.readFile('../some/dir/somethingInvalid/../test-file.json', 'utf8')).to.eventually.satisfy(function (data) {
+                    expect(data).to.equal(fileText);
                     return true;
                 });
             });
@@ -157,7 +157,7 @@
             var options = {encoding: 'utf8'};
             return bucketS3fsImpl.writeFile('test-file.json', fileText, options).then(function () {
                 return expect(bucketS3fsImpl.readFile('test-file.json', options)).to.eventually.satisfy(function (data) {
-                    expect(data.Body.toString()).to.equal(fileText);
+                    expect(data).to.equal(fileText);
                     return true;
                 });
             });
@@ -168,7 +168,7 @@
             var options = {encoding: 'utf16'};
             return bucketS3fsImpl.writeFile('test-file.json', fileText, options).then(function () {
                 return expect(bucketS3fsImpl.readFile('test-file.json', options)).to.eventually.satisfy(function (data) {
-                    expect(data.Body.toString()).to.equal(fileText);
+                    expect(data).to.equal(fileText);
                     return true;
                 });
             });
