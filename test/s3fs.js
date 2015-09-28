@@ -120,10 +120,10 @@
             return expect(bucketS3fsImpl.writeFile('imAClone/test-file.json', '{ "test": "test" }')
                     .then(function () {
                         var s3fsClone = bucketS3fsImpl.clone('imAClone');
-                        return s3fsClone.readFile('test-file.json', 'utf8');
+                        return s3fsClone.readFile('test-file.json');
                     })
-            ).to.eventually.satisfy(function (file) {
-                    expect(file).to.be.equal('{ "test": "test" }');
+            ).to.eventually.satisfy(function (data) {
+                    expect(data.toString()).to.be.equal('{ "test": "test" }');
                     return true;
                 });
         });
